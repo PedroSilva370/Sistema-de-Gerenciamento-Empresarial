@@ -68,12 +68,20 @@ def abrir_rh():
     frame_menu.pack_forget()
     frame_rh.pack(fill="both", expand=True)
 
-def voltar_menu():
+def abrir_produtos():
+    """
+    -> Função para abrir o frame dos produtos
+    :return: esquece o frame do menu e abre o frame dos produtos
+    """
+    frame_menu.pack_forget()
+    frame_produtos.pack(fill="both", expand=True)
+
+def voltar_menu(janela):
     """
     -> Função que volta para o frame do menu
     :return: esquece o frame do rh e abre o frame do menu
     """
-    frame_rh.pack_forget()
+    janela.pack_forget()
     frame_menu.pack(fill="both", expand=True)
 
 def voltar_rh(janela ):
@@ -643,6 +651,26 @@ CTkLabel(
     font=("Arial", 27, "bold")
 ).pack(pady=(15, 20))
 
+# ================= PRODUTOS =================
+
+# Criação do frame dos Produtos
+frame_produtos = CTkFrame(app)
+
+CTkLabel(
+    frame_produtos,
+    text='Produtos',
+    font=('Arial', 27, 'bold')
+).pack(pady=(15, 20))
+
+# Botões Produtos
+btn_cadastro_pro = CTkButton(
+    frame_produtos,
+    text="Cadastro de produtos",
+    width=200
+)
+if user.chefe:
+    btn_cadastro_pro.pack(pady=5)
+
 # ================= RH =================
 
 # Criação do frame do RH
@@ -661,7 +689,6 @@ btn_cadastro = CTkButton(
     width=200,
     command=abrir_cadastro
 )
-
 if user.chefe:
     btn_cadastro.pack(pady=5)
 
@@ -913,13 +940,14 @@ CTkButton(
     command=abrir_rh
 ).pack(pady=5)
 
-estoque = CTkButton(
+produtos = CTkButton(
     frame_menu,
-    text="Estoque",
-    width=200
+    text="Produtos",
+    width=200,
+    command=abrir_produtos
 )
 if user.chefe or user.funcionario:
-    estoque.pack(pady=5)
+    produtos.pack(pady=5)
 
 conta = CTkButton(
     frame_menu,
@@ -955,11 +983,30 @@ CTkButton(
     frame_rh,
     text="Voltar",
     width=200,
-    command=voltar_menu
+    command=lambda: voltar_menu(frame_rh)
 ).pack(pady=(20, 5))
 
 CTkButton(
     frame_rh,
+    text="Sair",
+    width=200,
+    command=app.destroy
+).pack(pady=5)
+
+# Tela inicial
+frame_menu.pack(fill="both", expand=True)
+
+# --------------------- BOTÕES PRODUTOS ---------------------
+
+CTkButton(
+    frame_produtos,
+    text="Voltar",
+    width=200,
+    command=lambda: voltar_menu(frame_produtos)
+).pack(pady=(20, 5))
+
+CTkButton(
+    frame_produtos,
     text="Sair",
     width=200,
     command=app.destroy

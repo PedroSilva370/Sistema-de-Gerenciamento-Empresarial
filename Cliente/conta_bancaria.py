@@ -2,6 +2,7 @@ from customtkinter import *
 from rh.funcoes import obter_arquivo
 import rh.usuario as user
 import app_state as state
+from tkinter import messagebox
 
 # ==================== JANELA ====================
 
@@ -64,6 +65,7 @@ def pegar_saque():
     :return: retorna o valor do saque para o extrato
     """
     global entrada_valor_saque
+    global popup
 
     try:
         valor = float(entrada_valor_saque.get())
@@ -73,11 +75,18 @@ def pegar_saque():
             atualizar_saldo()
         else:
             print("Saldo insuficiente ou conta não carregada!")
-
         fechar_popup_sacar()
-
     except ValueError:
         print("Digite um valor válido.")
+    else:
+        if valor:
+            messagebox.showinfo('Sucesso!', "Saque realizado com sucesso!", parent=popup)
+        else:
+            messagebox.showerror(
+                'Falha',
+                'Ocorreu um erro ao sacar!',
+                parent=popup
+            )
 
 def fechar_popup_sacar():
     """
@@ -172,6 +181,7 @@ def pegar_deposito():
     :return: retorna o valor do deposito para o extrato
     """
     global entrada_valor_deposito
+    global popup_deposito
 
     try:
         valor = float(entrada_valor_deposito.get())
@@ -183,6 +193,15 @@ def pegar_deposito():
 
     except ValueError:
         print("Digite um valor válido.")
+    else:
+        if valor:
+            messagebox.showinfo('Sucesso!', "Depósito realizado com sucesso!", parent=popup_deposito)
+        else:
+            messagebox.showerror(
+                'Falha',
+                'Ocorreu um erro ao depositar!',
+                parent=popup_deposito
+            )
 
 def abrir_popup_depositar():
     """
@@ -288,7 +307,7 @@ CTkButton(
     command=abrir_popup_depositar
 ).pack(pady=5)
 
-# ------------------ BOTÕES Banco ------------------
+# ------------------ BOTÕES BANCO ------------------
 
 CTkButton(
     frame_conta,

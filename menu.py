@@ -726,7 +726,7 @@ frame_cadastro = CTkFrame(app)
 
 CTkLabel(
     frame_cadastro,
-    text="Cadastro de \nfuncionários",
+    text="Cadastro de\nfuncionários",
     font=("Arial", 27, "bold")
 ).pack(pady=(15, 20))
 

@@ -60,6 +60,11 @@ def abrir_cargos():
     frame_rh.pack_forget()
     frame_cargos.pack(fill="both", expand=True)
 
+def abrir_cadastro_produtos():
+
+    frame_produtos.pack_forget()
+    frame_cadastro_produtos.pack(fill="both", expand=True)
+
 def abrir_rh():
     """
     -> Função para abrir o frame do rh
@@ -83,6 +88,11 @@ def voltar_menu(janela):
     """
     janela.pack_forget()
     frame_menu.pack(fill="both", expand=True)
+
+def voltar_produtos(janela):
+
+    janela.pack_forget()
+    frame_produtos.pack(fill="both", expand=True)
 
 def voltar_rh(janela ):
     """
@@ -639,7 +649,23 @@ def abrir_conta():
     frame_menu.pack_forget()
     state.frame_conta.pack(fill="both", expand=True)
 
-# ================ MENU =================
+def cadastrar_produtos():
+    nome = entrada_produto_nome.get().strip().lower()
+    preco = entrada_preco.get()
+    codigo = entrada_codigo.get()
+
+    resultado = cadastramento_produtos(nome, preco, codigo)
+
+    if resultado != 'Produto cadastrado com sucesso!':
+        messagebox.showerror(
+            'Falha',
+            resultado,
+            parent=frame_cadastro_produtos
+        )
+    else:
+        messagebox.showinfo('Sucesso!', resultado, parent=frame_cadastro_produtos)
+
+# **************** MENU ****************
 
 # Criação do frame do menu
 frame_menu = CTkFrame(app)
@@ -651,7 +677,7 @@ CTkLabel(
     font=("Arial", 27, "bold")
 ).pack(pady=(15, 20))
 
-# ================= PRODUTOS =================
+# *************** PRODUTOS ***************
 
 # Criação do frame dos Produtos
 frame_produtos = CTkFrame(app)
@@ -666,12 +692,52 @@ CTkLabel(
 btn_cadastro_pro = CTkButton(
     frame_produtos,
     text="Cadastro de produtos",
-    width=200
+    width=200,
+    command=abrir_cadastro_produtos
 )
 if user.chefe:
     btn_cadastro_pro.pack(pady=5)
 
-# ================= RH =================
+# ================  CADASTRO DE PRODUTOS ================
+
+# Criação do frame do Cadastro de produtos
+frame_cadastro_produtos = CTkFrame(app)
+
+CTkLabel(
+    frame_cadastro_produtos,
+    text='Cadastro de\n Produtos',
+    font=('Arial', 27, 'bold')
+).pack(pady=(15, 20))
+
+entrada_produto_nome = CTkEntry(
+    frame_cadastro_produtos,
+    placeholder_text='Nome',
+    width=200
+)
+entrada_produto_nome.pack(pady=5)
+
+entrada_preco = CTkEntry(
+    frame_cadastro_produtos,
+    placeholder_text='Preço',
+    width=200
+)
+entrada_preco.pack(pady=5)
+
+entrada_codigo = CTkEntry(
+    frame_cadastro_produtos,
+    placeholder_text='Codigo. Ex: mouse-gamer-001',
+    width=200
+)
+entrada_codigo.pack(pady=5)
+
+CTkButton(
+    frame_cadastro_produtos,
+    text="Cadastrar",
+    width=200,
+    command=cadastrar_produtos
+).pack(pady=10)
+
+# *************** RH ***************
 
 # Criação do frame do RH
 frame_rh = CTkFrame(app)
@@ -1014,6 +1080,22 @@ CTkButton(
 
 # Tela inicial
 frame_menu.pack(fill="both", expand=True)
+
+# ----------------- BOTÕES Cadastro PRODUTOS -----------------
+
+CTkButton(
+    frame_cadastro_produtos,
+    text="Voltar",
+    width=200,
+    command=lambda: voltar_produtos(frame_cadastro_produtos)
+).pack(pady=(20, 5))
+
+CTkButton(
+    frame_cadastro_produtos,
+    text="Sair",
+    width=200,
+    command=app.destroy
+).pack(pady=5)
 
 # ----------------- BOTÕES CADASTRO ----------------
 

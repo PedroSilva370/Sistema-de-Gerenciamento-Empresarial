@@ -2,6 +2,7 @@ import csv
 from pathlib import Path
 
 cargos = {'TI', 'Frontend', 'Backend'}
+produtos = list()
 
 def carregar_cargos():
     """
@@ -90,3 +91,35 @@ def obter_salario_medio(funcao):
             if linha and linha[0] == funcao:
                 return linha[2]  # salário médio
     return None
+
+def cadastramento_produtos(nome, preco, codigo):
+
+    produto = {
+        'nome': nome,
+        'preco': preco,
+        'codigo': codigo
+    }
+
+    if not nome or not nome.strip():
+        return 'O nome é obrigatório.'
+
+    try:
+        preco = float(preco)
+    except ValueError:
+        return 'O preco é obrigatório e deve ser um número.'
+
+    if not codigo.strip():
+        return 'O código é obrigatório.'
+
+    produtos.append(produto)
+
+    with open(obter_arquivo("produtos.csv"), "a", newline="", encoding="utf-8") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([
+            produto['nome'],
+            produto['preco'],
+            produto['codigo']
+        ])
+
+    # Retorna o resultado
+    return 'Produto cadastrado com sucesso!'
